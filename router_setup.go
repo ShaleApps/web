@@ -5,19 +5,19 @@ import (
 	"strings"
 )
 
-type httpMethod string
+type HTTPMethod string
 
 const (
-	httpMethodGet     = httpMethod("GET")
-	httpMethodPost    = httpMethod("POST")
-	httpMethodPut     = httpMethod("PUT")
-	httpMethodDelete  = httpMethod("DELETE")
-	httpMethodPatch   = httpMethod("PATCH")
-	httpMethodHead    = httpMethod("HEAD")
-	httpMethodOptions = httpMethod("OPTIONS")
+	httpMethodGet     = HTTPMethod("GET")
+	httpMethodPost    = HTTPMethod("POST")
+	httpMethodPut     = HTTPMethod("PUT")
+	httpMethodDelete  = HTTPMethod("DELETE")
+	httpMethodPatch   = HTTPMethod("PATCH")
+	httpMethodHead    = HTTPMethod("HEAD")
+	httpMethodOptions = HTTPMethod("OPTIONS")
 )
 
-var httpMethods = []httpMethod{httpMethodGet, httpMethodPost, httpMethodPut, httpMethodDelete, httpMethodPatch, httpMethodHead, httpMethodOptions}
+var httpMethods = []HTTPMethod{httpMethodGet, httpMethodPost, httpMethodPut, httpMethodDelete, httpMethodPatch, httpMethodHead, httpMethodOptions}
 
 // Router implements net/http's Handler interface and is what you attach middleware, routes/handlers, and subrouters to.
 type Router struct {
@@ -37,7 +37,7 @@ type Router struct {
 	routes     []*route
 
 	// The root pathnode is the same for a tree of Routers
-	root map[httpMethod]*pathNode
+	root map[HTTPMethod]*pathNode
 
 	// This can can be set on any router. The target's ErrorHandler will be invoked if it exists
 	errorHandler reflect.Value
@@ -66,7 +66,7 @@ type GenericHandler func(ResponseWriter, *Request)
 
 type route struct {
 	Router  *Router
-	Method  httpMethod
+	Method  HTTPMethod
 	Path    string
 	Handler *actionHandler
 }
@@ -95,7 +95,7 @@ func New(ctx interface{}) *Router {
 	r.contextType = reflect.TypeOf(ctx)
 	r.pathPrefix = "/"
 	r.maxChildrenDepth = 1
-	r.root = make(map[httpMethod]*pathNode)
+	r.root = make(map[HTTPMethod]*pathNode)
 	for _, method := range httpMethods {
 		r.root[method] = newPathNode()
 	}
@@ -218,7 +218,7 @@ func (r *Router) Options(path string, fn interface{}) *Router {
 	return r.AddRoute(httpMethodOptions, path, fn)
 }
 
-func (r *Router) AddRoute(method httpMethod, path string, fn interface{}) *Router {
+func (r *Router) AddRoute(method HTTPMethod, path string, fn interface{}) *Router {
 	vfn := reflect.ValueOf(fn)
 	validateHandler(vfn, r.contextType)
 	fullPath := appendPath(r.pathPrefix, path)
