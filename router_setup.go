@@ -185,40 +185,40 @@ func (r *Router) OptionsHandler(fn interface{}) *Router {
 
 // Get will add a route to the router that matches on GET requests and the specified path.
 func (r *Router) Get(path string, fn interface{}) *Router {
-	return r.addRoute(httpMethodGet, path, fn)
+	return r.AddRoute(httpMethodGet, path, fn)
 }
 
 // Post will add a route to the router that matches on POST requests and the specified path.
 func (r *Router) Post(path string, fn interface{}) *Router {
-	return r.addRoute(httpMethodPost, path, fn)
+	return r.AddRoute(httpMethodPost, path, fn)
 }
 
 // Put will add a route to the router that matches on PUT requests and the specified path.
 func (r *Router) Put(path string, fn interface{}) *Router {
-	return r.addRoute(httpMethodPut, path, fn)
+	return r.AddRoute(httpMethodPut, path, fn)
 }
 
 // Delete will add a route to the router that matches on DELETE requests and the specified path.
 func (r *Router) Delete(path string, fn interface{}) *Router {
-	return r.addRoute(httpMethodDelete, path, fn)
+	return r.AddRoute(httpMethodDelete, path, fn)
 }
 
 // Patch will add a route to the router that matches on PATCH requests and the specified path.
 func (r *Router) Patch(path string, fn interface{}) *Router {
-	return r.addRoute(httpMethodPatch, path, fn)
+	return r.AddRoute(httpMethodPatch, path, fn)
 }
 
 // Head will add a route to the router that matches on HEAD requests and the specified path.
 func (r *Router) Head(path string, fn interface{}) *Router {
-	return r.addRoute(httpMethodHead, path, fn)
+	return r.AddRoute(httpMethodHead, path, fn)
 }
 
 // Options will add a route to the router that matches on OPTIONS requests and the specified path.
 func (r *Router) Options(path string, fn interface{}) *Router {
-	return r.addRoute(httpMethodOptions, path, fn)
+	return r.AddRoute(httpMethodOptions, path, fn)
 }
 
-func (r *Router) addRoute(method httpMethod, path string, fn interface{}) *Router {
+func (r *Router) AddRoute(method httpMethod, path string, fn interface{}) *Router {
 	vfn := reflect.ValueOf(fn)
 	validateHandler(vfn, r.contextType)
 	fullPath := appendPath(r.pathPrefix, path)
